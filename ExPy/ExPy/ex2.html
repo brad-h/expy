@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title>Count the number of characters</title>
+</head>
+<body>
+    <div id="app">
+        <label for="input">What is the input string?</label>
+        <input type="text" id="input" oninput="callback()"/>
+        <br />
+        <span id="output"></span>
+    </div>
+    <script>
+        // Called every time the #input is changed to update the #output span
+        function callback() {
+            var prompt = document.getElementById('input').value;
+            var output = prompt + ' has ' + prompt.length + ' characters.';
+            document.getElementById('output').innerText = output;
+        }
+    </script>
+</body>
+</html>
