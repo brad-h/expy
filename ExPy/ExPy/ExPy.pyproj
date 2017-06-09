@@ -21,13 +21,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ex1.py">
+    <Compile Include="module1.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ex2.py">
+    <Compile Include="module2.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ex3.py">
+    <Compile Include="module3.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ExPy.py" />
