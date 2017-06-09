@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Simple Math</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.4.0/Rx.js"></script>
+</head>
+<body>
+    <div id="app">
+        <label for="x">What is the first number?</label>
+        <input type="text" id="x" />
+        <br />
+        <label for="y">What is the second number?</label>
+        <input type="text" id="y" />
+        <br />
+        <span id="out"></span>
+    </div>
+    <script>
+        (function () {
+
+            function transform(event) {
+                return parseInt(event.srcElement.value);
+            }
+
+            function isaN(n) {
+                return !isNaN(n);
+            }
+
+            // calculate a report of simple math
+            function calculate(x, y) {
+                return [
+                    x + ' + ' + y + ' = ' + (x + y),
+                    x + ' - ' + y + ' = ' + (x - y),
+                    x + ' * ' + y + ' = ' + (x * y),
+                    x + ' / ' + y + ' = ' + (x / y),
+                ].join('\n');
+            }
+            
+            var x$ = Rx.Observable.fromEvent(document.getElementById('x'), 'input').map(transform).filter(isaN);
+            var y$ = Rx.Observable.fromEvent(document.getElementById('y'), 'input').map(transform).filter(isaN);
+            
+            var out = document.getElementById('out');
+            Rx.Observable.combineLatest(x$, y$, calculate).forEach(function (x) { out.innerText = x; });
+        })();
+    </script>
+</body>
+</html>
