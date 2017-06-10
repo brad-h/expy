@@ -1,7 +1,5 @@
 """Area of a Rectangular Room"""
 
-from math import sqrt
-
 CONVERSION_FACTOR = 0.09290304
 
 def area_of_rectangle(prompt, units):
@@ -61,12 +59,12 @@ def ex7b():
         if units in ['feet', 'meters']:
             break
 
-    area_of_rectangle(input_must_be_number, units)
+    area_of_rectangle(input_numeric, units)
 
 def ex7c():
     """GUI"""
 
-    import tkinter as tk
+    # pylint: disable=no-member
     from tkcomponents import create, input_stream, radio_stream, output_label
     import rx
 
@@ -75,14 +73,14 @@ def ex7c():
         'feet': (CONVERSION_FACTOR, 'meters'),
         'meters': (1 / CONVERSION_FACTOR, 'feet'),
     }
-    options = [(x, x) for x in conversions.keys()]
+    options = [(x, x) for x in conversions]
     units = radio_stream(root, options, 0)
     length = input_stream(root, units.map('What is the length of the room in {0}?'.format), 1)
     width = input_stream(root, units.map('What is the width of the room in {0}?'.format), 2)
 
     def callback(unit, length, width):
         """Called every time any of the arguments changes to update the output"""
-        
+
         try:
             length = int(length)
             width = int(width)
@@ -95,11 +93,11 @@ def ex7c():
         return '\n'.join([
             ('You entered dimensions of {length} {units} by {width} {units}.'
              .format(length=length, width=width, units=unit)),
-             'The area is',
-             ('{area} square {units}'.format(area=area, units=unit)),
-             ('{area:.3f} square {units}'
-              .format(area=area_converted, units=units_converted))
+            'The area is',
+            ('{area} square {units}'.format(area=area, units=unit)),
+            ('{area:.3f} square {units}'
+             .format(area=area_converted, units=units_converted))
         ])
-    
+
     output_label(root, rx.Observable.combine_latest(units, length, width, callback), 3)
     root.mainloop()

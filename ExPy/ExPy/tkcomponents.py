@@ -53,13 +53,13 @@ def radio_stream(root, options, row, default=''):
     subject.on_next(default)
     column = 0
     for (value, text) in options:
-        rb = tk.Radiobutton(
+        radio_button = tk.Radiobutton(
             root,
             text=text,
             variable=string_var,
             value=value,
             command=lambda: subject.on_next(string_var.get()))
-        rb.grid(row=row, column=column)
+        radio_button.grid(row=row, column=column)
         column += 1
     return subject
 

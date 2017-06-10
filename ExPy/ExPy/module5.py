@@ -82,7 +82,6 @@ def ex5c():
 def ex5d():
     """GUI program that updates when either operand changes"""
 
-    import tkinter as tk
     import rx
     from tkcomponents import create, input_stream, output_label
 
