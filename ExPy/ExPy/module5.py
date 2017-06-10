@@ -84,29 +84,13 @@ def ex5d():
 
     import tkinter as tk
     import rx
-    from rx.concurrency import TkinterScheduler
+    from tkcomponents import create, input_stream, output_label
 
     # pylint: disable=no-member
-    root = tk.Tk()
-    root.title = 'Simple Math'
-    TkinterScheduler(root)
+    root = create('Simple Math')
+    x_stream = input_stream(root, rx.Observable.just('What is the first number?'), 0)
+    y_stream = input_stream(root, rx.Observable.just('What is the second number?'), 1)
 
-    def input_stream(prompt, row):
-        """Creates input component with label given as prompt on a given row,
-        returns observable of input values
-        """
-
-        tk.Label(root, text=prompt).grid(row=row)
-        subject = rx.subjects.Subject()
-        string_var = tk.StringVar()
-        string_var.trace('w', lambda *args: subject.on_next(string_var.get()))
-        tk.Entry(root, textvariable=string_var).grid(row=row, column=1)
-        return subject
-
-    x_stream = input_stream('What is the first number?', 0)
-    y_stream = input_stream('What is the second number?', 1)
-
-    out_var = tk.StringVar()
     def calculate(x_str, y_str):
         """Report simple math"""
         try:
@@ -125,8 +109,7 @@ def ex5d():
         except ValueError:
             return ''
 
-    rx.Observable.combine_latest(
-        x_stream, y_stream, calculate).subscribe(out_var.set)
-    tk.Label(root, textvariable=out_var).grid(row=2)
-
+    out_stream = rx.Observable.combine_latest(
+        x_stream, y_stream, calculate)
+    output_label(root, out_stream, 2)
     root.mainloop()
