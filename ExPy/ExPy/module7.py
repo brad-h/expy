@@ -77,12 +77,18 @@ def ex7c():
     }
     options = [(x, x) for x in conversions.keys()]
     units = radio_stream(root, options, 0)
-    length = input_stream(root, units.map('What is the length of the room in {0}?'.format), 1).map(int)
-    width = input_stream(root, units.map('What is the width of the room in {0}?'.format), 2).map(int)
+    length = input_stream(root, units.map('What is the length of the room in {0}?'.format), 1)
+    width = input_stream(root, units.map('What is the width of the room in {0}?'.format), 2)
 
     def callback(unit, length, width):
         """Called every time any of the arguments changes to update the output"""
         
+        try:
+            length = int(length)
+            width = int(width)
+        except ValueError:
+            return ''
+
         (conversion_factor, units_converted) = conversions[unit]
         area = length * width
         area_converted = area * conversion_factor
