@@ -2,13 +2,6 @@
 
 from datetime import date
 
-def prompt():
-    """Prompt the user for both their age and retirement age, return them as a pair"""
-
-    age = int(input('What is your age? '))
-    retirement_age = int(input('At what age would you like to retire? '))
-    return (age, retirement_age)
-
 def prompt(difference_check):
     """Calculate the year you can retire
     difference_check - a function that takes a number and returns boolean,
