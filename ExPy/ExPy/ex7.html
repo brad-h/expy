@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Area of a Rectangular Room</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.4.0/Rx.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="radio" name="units" id="units.feet" value="feet" />feet
+        <input type="radio" name="units" id="units.meters" value="meters" />meters
+        <br />
+        <label for="length" id="length.label"></label>
+        <input type="text" id="length" />
+        <br />
+        <label for="width" id="width.label"></label>
+        <input type="text" id="width" />
+        <br />
+        <span id="out"></span>
+    </div>
+    <script>
+        (function () {
+            var units = document.getElementsByName('units');
+            var lengthLabel = document.getElementById('length.label');
+            var widthLabel = document.getElementById('width.label');
+            var out = document.getElementById('out');
+            
+            var unit$ = Rx.Observable.fromEvent(units, 'change')
+                .map(function (x) { return x.srcElement.value; });
+            unit$.map(function (x) { return 'What is the length of the room in ' + x + '?'; })
+                .subscribe(function (x) { lengthLabel.innerText = x; });
+            unit$.map(function (x) { return 'What is the width of the room in ' + x + '?'; })
+                .subscribe(function (x) { return widthLabel.innerText = x; });
+
+            var length$ = Rx.Observable.fromEvent(document.getElementById('length'), 'input')
+                .map(function (x) {
+                    return x.srcElement.value;
+                });
+            var width$ = Rx.Observable.fromEvent(document.getElementById('width'), 'input')
+                .map(function (x) {
+                    return x.srcElement.value;
+                });
+            
+            var conversion_factor = 0.09290304;
+            var conversions = {
+                'feet': [conversion_factor, 'meters'],
+                'meters': [1 / conversion_factor, 'feet']
+            };
+            function calculate(unit, width, length) {
+                // given a unit, width, and a length, given the length of the room
+                length = parseInt(length);
+                width = parseInt(width);
+                if ([length, width].some(isNaN)) {
+                    return '';
+                }
+                var conversion_factor = conversions[unit][0];
+                var units_converted = conversions[unit][1];
+                var area = length * width;
+                var area_converted = area * conversion_factor;
+                return [
+                    'You entered dimensions of ' + length + ' ' + unit + ' by ' + width + ' ' + unit + '.',
+                    'The area is',
+                    area + ' square ' + unit,
+                    Math.round(area_converted, 3) + ' square ' + units_converted
+                ].join('\n');
+            }
+            var out$ = Rx.Observable.combineLatest(unit$, width$, length$, calculate);
+            out$.subscribe(function (x) { out.innerText = x; });
+            document.getElementById('units.feet').click();
+        })();
+    </script>
+</body>
+</html>
