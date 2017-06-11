@@ -34,7 +34,7 @@ def area_of_rectangle(prompt, units):
           .format(area=area_converted, units=units_converted))
 
 def ex7():
-    """Non-numeric inputs through an exception"""
+    """Non-numeric inputs throw an exception"""
 
     area_of_rectangle(lambda prompt: int(input(prompt)), 'feet')
 
