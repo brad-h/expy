@@ -206,7 +206,6 @@ def ex7refactor():
 def ex7refactorgui():
     """implementation of the attempted gui refactor"""
 
-    import rx
     import tkcomponents
     
     gui = Gui('Area of a rectangular room')
