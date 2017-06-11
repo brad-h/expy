@@ -1,7 +1,10 @@
 """Area of a Rectangular Room"""
 
+import tkcomponents
+
 CONVERSION_FACTOR = 0.09290304
 
+#pylint: disable=no-member
 def area_of_rectangle(prompt, units):
     """Separate calculations from output.
     prompt - a function that takes a message
@@ -141,8 +144,6 @@ def attempted_refactor(component):
 
     component.output_label(rx.Observable.combine_latest(units, length, width, callback))
 
-
-import tkcomponents
 class Gui():
     """A class of helper methods for working with tk"""
 
@@ -154,12 +155,12 @@ class Gui():
     def run(self):
         """Run the UI"""
         self.root.mainloop()
-    
+
     def input_stream(self, stream):
         """Returns an input box with a label
         whose text is given by the input stream
         """
-        
+
         return tkcomponents.input_stream(self.root, stream, self.__inc())
 
     def radio_stream(self, options, default):
@@ -179,15 +180,15 @@ class Gui():
 
 class Cli():
     """A class of helper methods for working with the cli"""
-    
+    # pylint: disable=no-self-use
     def input_stream(self, stream):
         """Returns an input with a label
         whose text is given by the input stream
         """
 
         return stream.map(lambda prompt: int(input(prompt)))
-    
-    def radio_stream(self, options, default):
+
+    def radio_stream(self, _options, default):
         """Returns a radio button with the options provided"""
 
         from rx import Observable
@@ -206,10 +207,6 @@ def ex7refactor():
 def ex7refactorgui():
     """implementation of the attempted gui refactor"""
 
-    import tkcomponents
-    
     gui = Gui('Area of a rectangular room')
-
     attempted_refactor(gui)
-    
     gui.run()
