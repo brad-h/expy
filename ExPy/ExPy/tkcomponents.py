@@ -49,7 +49,7 @@ def radio_stream(root, options, row, default=''):
 
     string_var = tk.StringVar()
     string_var.set(default)
-    subject = rx.subjects.Subject()
+    subject = rx.subjects.ReplaySubject()
     subject.on_next(default)
     column = 0
     for (value, text) in options:

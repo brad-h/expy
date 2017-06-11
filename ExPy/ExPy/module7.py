@@ -101,3 +101,116 @@ def ex7c():
 
     output_label(root, rx.Observable.combine_latest(units, length, width, callback), 3)
     root.mainloop()
+
+CONVERSIONS = {
+    'feet': (CONVERSION_FACTOR, 'meters'),
+    'meters': (1 / CONVERSION_FACTOR, 'feet'),
+}
+
+def attempted_refactor(component):
+    """attempt to refactor the above implementations into something that utilizes observables"""
+
+    # pylint: disable=no-member
+    import rx
+
+    options = [(x, x) for x in CONVERSIONS]
+    units = component.radio_stream(options, 'feet')
+    length = component.input_stream(units.map('What is the length of the room in {0}?'.format))
+    width = component.input_stream(units.map('What is the width of the room in {0}?'.format))
+
+    def callback(unit, length, width):
+        """Called every time any of the arguments changes to update the output"""
+
+        try:
+            length = int(length)
+            width = int(width)
+        except ValueError:
+            return ''
+
+        (conversion_factor, units_converted) = CONVERSIONS[unit]
+        area = length * width
+        area_converted = area * conversion_factor
+        return '\n'.join([
+            ('You entered dimensions of {length} {units} by {width} {units}.'
+             .format(length=length, width=width, units=unit)),
+            'The area is',
+            ('{area} square {units}'.format(area=area, units=unit)),
+            ('{area:.3f} square {units}'
+             .format(area=area_converted, units=units_converted))
+        ])
+
+    component.output_label(rx.Observable.combine_latest(units, length, width, callback))
+
+
+import tkcomponents
+class Gui():
+    """A class of helper methods for working with tk"""
+
+    def __init__(self, title):
+        """Create a tk GUI with helper methods"""
+        self.root = tkcomponents.create(title)
+        self.row = 0
+
+    def run(self):
+        """Run the UI"""
+        self.root.mainloop()
+    
+    def input_stream(self, stream):
+        """Returns an input box with a label
+        whose text is given by the input stream
+        """
+        
+        return tkcomponents.input_stream(self.root, stream, self.__inc())
+
+    def radio_stream(self, options, default):
+        """Returns a radio button with the options provided"""
+
+        return tkcomponents.radio_stream(self.root, options, self.__inc(), default)
+
+    def output_label(self, stream):
+        """Create an output label of results given by the input stream"""
+
+        tkcomponents.output_label(self.root, stream, self.__inc())
+
+    def __inc(self):
+        """increment the row counter and return the incremented value"""
+        self.row += 1
+        return self.row
+
+class Cli():
+    """A class of helper methods for working with the cli"""
+    
+    def input_stream(self, stream):
+        """Returns an input with a label
+        whose text is given by the input stream
+        """
+
+        return stream.map(lambda prompt: int(input(prompt)))
+    
+    def radio_stream(self, options, default):
+        """Returns a radio button with the options provided"""
+
+        from rx import Observable
+        return Observable.just(default)
+
+    def output_label(self, stream):
+        """Create an output label of results given by the input stream"""
+
+        stream.subscribe(print)
+
+def ex7refactor():
+    """implementation of the attempted cli refactor"""
+
+    attempted_refactor(Cli())
+
+def ex7refactorgui():
+    """implementation of the attempted gui refactor"""
+
+    import rx
+    import tkcomponents
+    
+    gui = Gui('Area of a rectangular room')
+
+    attempted_refactor(gui)
+    
+    gui.run()
