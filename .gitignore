@@ -2,3 +2,6 @@ ExPy/ExPy/__pycache__/
 ExPy/.vs/
 ExPy/ExPy/ExPy.pyproj.user
 ExPy/Web/obj/
+ExPy/Web/bin/
+*.js
+*.map
