@@ -5,3 +5,4 @@ ExPy/Web/obj/
 ExPy/Web/bin/
 *.js
 *.map
+ExPy/Web/node_modules/
