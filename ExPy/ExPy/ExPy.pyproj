@@ -43,6 +43,9 @@
     <Compile Include="module7.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="module8.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tkcomponents.py">
       <SubType>Code</SubType>
     </Compile>
