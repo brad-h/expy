@@ -21,29 +21,35 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="module1.py">
+    <Compile Include="module01.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="module2.py">
+    <Compile Include="module10.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="module3.py">
+    <Compile Include="module02.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module03.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ExPy.py" />
-    <Compile Include="module4.py">
+    <Compile Include="module04.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="module5.py">
+    <Compile Include="module05.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="module6.py">
+    <Compile Include="module06.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="module7.py">
+    <Compile Include="module07.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="module8.py">
+    <Compile Include="module08.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module09.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="tkcomponents.py">
