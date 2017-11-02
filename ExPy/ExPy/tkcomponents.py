@@ -63,6 +63,27 @@ def radio_stream(root, options, row, default=''):
         column += 1
     return subject
 
+def select(root, options, prompt, row, default=''):
+    """ Produce a stream of user selections on a drop down
+    root - a Tk root
+    prompt - an observable of string values
+    options - a set of options
+      value - the value that is generated when selected
+    row - the row of the tk window to place the drop down
+    """
+
+    assert isinstance(root, tk.Tk)
+    assert isinstance(options, set)
+    assert isinstance(row, int)
+    
+    string_var = tk.StringVar()
+    string_var.set(default)
+    subject = rx.subjects.ReplaySubject()
+    subject.on_next(default)
+    output_label(root, prompt, row)
+    selections = tk.OptionMenu(root, string_var, *options)
+    return subject
+
 def output_label(root, stream, row):
     """Used to display a stream of values to the user
     root - a Tk root
