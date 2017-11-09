@@ -3,7 +3,7 @@
 import decimal
 
 def ex12():
-    """ Collection principal, rate, and term from the user
+    """ Collect principal, rate, and term from the user
     Print the principal plus interest
     """
 
@@ -23,7 +23,7 @@ def ex12():
 
     while True:
         try:
-            term = int(input('Enter the number of  years: '))
+            term = int(input('Enter the number of years: '))
             term = decimal.Decimal(term)
             break
         except ValueError:
