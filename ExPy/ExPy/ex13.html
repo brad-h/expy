@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Determining Compound Interest</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.4.0/Rx.js"></script>
+</head>
+<body>
+    <div id="app">
+        <label for="principal" id="principal.label">What is the principal amount?</label>
+        <input type="text" id="principal" />
+        <br />
+        <label for="rate" id="rate.label">What is the rate?</label>
+        <input type="text" id="rate" />
+        <br />
+        <label for="term" id="term.label">What is the number of years?</label>
+        <input type="text" id="term" />
+        <br />
+        <label for="frequency" id="frequency.label">What is the number of times interest is compounded per year?</label>
+        <input type="text" id="frequency" />
+        <br />
+        <span id="out"></span>
+    </div>
+    <script>
+        (function () {
+            var principal = document.getElementById('principal');
+            var rate = document.getElementById('rate');
+            var term = document.getElementById('term');
+            var frequency = document.getElementById('frequency');
+            var out = document.getElementById('out');
+            
+            function getValue(x) {
+                return x.srcElement.value;
+            }
+
+            var principal$ = Rx.Observable.fromEvent(principal, 'change')
+                .map(getValue);
+            var rate$ = Rx.Observable.fromEvent(rate, 'change')
+                .map(getValue);
+            var term$ = Rx.Observable.fromEvent(term, 'change')
+                .map(getValue);
+            var frequency$ = Rx.Observable.fromEvent(frequency, 'change')
+                .map(getValue);
+            
+            function calculate(principal, rate, term, frequency) {
+                // given a principal, rate, term and frequency, return the principal plus interesst
+                principal = parseFloat(principal);
+                rate = parseFloat(rate);
+                term = parseInt(term);
+                frequency = parseInt(frequency);
+                if ([principal, rate, term, frequency].some(isNaN)) {
+                    return '';
+                }
+                var amount = (principal * Math.pow((1 + ((rate / 100 / frequency))), (frequency * term))).toFixed(2);
+                return [
+                    '$' + principal.toFixed(2) + ' invested at ' + rate + '% for ' + term + ' years',
+                    'compounded ' + frequency + ' times per year is $' + amount
+                ].join('\n');
+            }
+            var out$ = Rx.Observable.combineLatest(principal$, rate$, term$, frequency$, calculate);
+            out$.subscribe(function (x) { out.innerText = x; });
+        })();
+    </script>
+</body>
+</html>
