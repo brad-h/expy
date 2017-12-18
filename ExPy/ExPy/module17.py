@@ -14,7 +14,7 @@ def ex17():
 
     while True:
         try:
-            a = decimal.Decimal(input('Enter alcohol consumed (in ounces): '))
+            alcohol = decimal.Decimal(input('Enter alcohol consumed (in ounces): '))
             break
         except decimal.InvalidOperation:
             print('Enter a valid amount')
@@ -22,23 +22,23 @@ def ex17():
     while True:
         sex = input('Enter sex (M/F): ').upper()
         if sex in ALCOHOL_DISTRIBUTION_RATIO:
-            r = ALCOHOL_DISTRIBUTION_RATIO[sex]
+            ratio = ALCOHOL_DISTRIBUTION_RATIO[sex]
             break
-    
+
     while True:
         try:
-            w = int(input('Enter weight (in pounds): '))
-            w = decimal.Decimal(w)
+            weight = int(input('Enter weight (in pounds): '))
+            weight = decimal.Decimal(weight)
             break
         except ValueError:
             print('Enter a valid amount')
-    
+
     while True:
         try:
-            h = int(input('Enter the number of hours since the last drink: '))
-            h = decimal.Decimal(h)
+            height = int(input('Enter the number of hours since the last drink: '))
+            height = decimal.Decimal(height)
             break
         except ValueError:
             print('Enter valid hours')
-    bac = (a * decimal.Decimal('5.14') / w * r) - decimal.Decimal('0.15') * h
+    bac = (alcohol * decimal.Decimal('5.14') / weight * ratio) - decimal.Decimal('0.15') * height
     print('bac: {}'.format(bac))
