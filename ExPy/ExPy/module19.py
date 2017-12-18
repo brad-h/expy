@@ -12,8 +12,7 @@ def bmi_recommendation(bmi):
         return 'You are underweight. You should see a doctor.'
     elif bmi < 25:
         return 'You are within the ideal weight range.'
-    else:
-        return 'You are overweight. You should see a doctor.'
+    return 'You are overweight. You should see a doctor.'
 
 def prompt_float(prompt):
     """ Given a specified prompt, return a float """
@@ -37,6 +36,7 @@ def ex19():
 
     print('Your BMI is {}'.format(bmi))
     print(recommendation)
+
 
 if __name__ == '__main__':
     ex19()
