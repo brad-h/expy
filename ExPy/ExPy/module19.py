@@ -1,5 +1,6 @@
 """ BMI Calculator """
 
+from tkinter import HORIZONTAL
 import rx
 import tkcomponents
 
@@ -49,50 +50,27 @@ def ex19gui():
     }
     systems = tkcomponents.radio_stream(root, [(x, x) for x in options], 0, default='Imperial')
     weight_labels = systems.map(lambda x: 'Enter weight in {}'.format(options[x][0]))
-    weights = tkcomponents.input_stream(root, weight_labels, 1)
+    weights = tkcomponents.scale_stream(root, weight_labels, 1, from_=1, to=500, orient=HORIZONTAL, default=160)
     height_labels = systems.map(lambda x: 'Enter height in {}'.format(options[x][1]))
-    heights = tkcomponents.input_stream(root, height_labels, 2)
+    heights = tkcomponents.scale_stream(root, height_labels, 2, from_=1, to=500, orient=HORIZONTAL, default=68)
 
     def callback(system, weight, height):
         """Given a system, a weight, and a height
         Calculate BMI"""
-        try:
-            weight = float(weight)
-        except ValueError:
-            return (False, 'Enter a valid weight')
-        try:
-            height = float(height)
-        except ValueError:
-            return (False, 'Enter a valid height')
+        weight = float(weight)
+        height = float(height)
         if system == 'Imperial':
-            return (True, calculate_bmi(weight, height))
+            return calculate_bmi(weight, height)
         weight_lbs = weight * 2.20462
         height_in = height * 0.393701
-        return (True, calculate_bmi(weight_lbs, height_in))
+        return calculate_bmi(weight_lbs, height_in)
 
     #pylint: disable=E1101
     bmis = rx.Observable.combine_latest(systems, weights, heights, callback)
-    def bmi_output(bmi):
-        """ If the BMI could successfully be converted then display it
-        Otherwise display the error
-        """
-        okay, value = bmi
-        if okay:
-            return 'Your BMI is {}'.format(value)
-        return value
 
-    tkcomponents.output_label(root, bmis.map(bmi_output), 3)
+    tkcomponents.output_label(root, bmis.map('Your BMI is {}'.format), 3)
+    tkcomponents.output_label(root, bmis.map(bmi_recommendation), 4)
 
-    def bmi_recommendation_output(bmi):
-        """ If the BMI could successfully be converted then display
-        the recommendation
-        Otherwise display the error
-        """
-        okay, value = bmi
-        if okay:
-            return bmi_recommendation(value)
-        return ''
-    tkcomponents.output_label(root, bmis.map(bmi_recommendation_output), 4)
     root.mainloop()
 
 if __name__ == '__main__':
