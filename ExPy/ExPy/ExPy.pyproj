@@ -70,6 +70,9 @@
     <Compile Include="module16.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="module17.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tkcomponents.py">
       <SubType>Code</SubType>
     </Compile>
