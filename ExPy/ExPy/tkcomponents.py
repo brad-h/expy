@@ -107,7 +107,7 @@ def select(root, options, prompt, row, default=''):
     tk.OptionMenu(root, string_var, *options)
     return subject
 
-def output_label(root, stream, row):
+def output_label(root, stream, row, **kwargs):
     """Used to display a stream of values to the user
     root - a Tk root
     stream - a stream of values to be displayed
@@ -120,4 +120,4 @@ def output_label(root, stream, row):
     string_var = tk.StringVar()
     string_var.set('')
     stream.subscribe(string_var.set)
-    tk.Label(root, textvariable=string_var).grid(row=row)
+    tk.Label(root, textvariable=string_var, **kwargs).grid(row=row)
