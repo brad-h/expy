@@ -21,7 +21,9 @@ def dollar(amount):
 
 STATE_RATES = {
     'ILLINOIS': Decimal('0.08'),
-    'WISCONSIN': Decimal('0.05')
+    'IL': Decimal('0.08'),
+    'WISCONSIN': Decimal('0.05'),
+    'WI': Decimal('0.05'),
 }
 
 WISCONSIN_RATES = {
