@@ -75,13 +75,13 @@ def select(root, options, prompt, row, default=''):
     assert isinstance(root, tk.Tk)
     assert isinstance(options, set)
     assert isinstance(row, int)
-    
+
     string_var = tk.StringVar()
     string_var.set(default)
     subject = rx.subjects.ReplaySubject()
     subject.on_next(default)
     output_label(root, prompt, row)
-    selections = tk.OptionMenu(root, string_var, *options)
+    tk.OptionMenu(root, string_var, *options)
     return subject
 
 def output_label(root, stream, row):
