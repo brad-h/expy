@@ -50,9 +50,14 @@ def ex19gui():
     }
     systems = tkcomponents.radio_stream(root, [(x, x) for x in options], 0, default='Imperial')
     weight_labels = systems.map(lambda x: 'Enter weight in {}'.format(options[x][0]))
-    weights = tkcomponents.scale_stream(root, weight_labels, 1, from_=1, to=500, orient=HORIZONTAL, default=160)
+    scale_options = {
+        'from_': 1,
+        'to': 300,
+        'orient': HORIZONTAL
+    }
+    weights = tkcomponents.scale_stream(root, weight_labels, 1, default=160, **scale_options)
     height_labels = systems.map(lambda x: 'Enter height in {}'.format(options[x][1]))
-    heights = tkcomponents.scale_stream(root, height_labels, 2, from_=1, to=500, orient=HORIZONTAL, default=68)
+    heights = tkcomponents.scale_stream(root, height_labels, 2, default=68, **scale_options)
 
     def callback(system, weight, height):
         """Given a system, a weight, and a height
