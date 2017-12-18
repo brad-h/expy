@@ -63,6 +63,29 @@ def radio_stream(root, options, row, default=''):
         column += 1
     return subject
 
+def scale_stream(root, prompt, row, default='', **kwargs):
+    """Produce a stream of slider values on a scale
+    root - a Tk root
+    prompt - an observable of string values
+    row - the row of the tk window to place the scale
+    """
+
+    assert isinstance(root, tk.Tk)
+    assert isinstance(prompt, rx.Observable)
+    assert isinstance(row, int)
+
+    string_var = tk.StringVar()
+    string_var.set(default)
+    subject = rx.subjects.ReplaySubject()
+    subject.on_next(default)
+    output_label(root, prompt, row)
+    scale = tk.Scale(root,
+                     variable=string_var,
+                     command=lambda _: subject.on_next(string_var.get()),
+                     **kwargs)
+    scale.grid(row=row, column=1)
+    return subject
+
 def select(root, options, prompt, row, default=''):
     """ Produce a stream of user selections on a drop down
     root - a Tk root
