@@ -6,3 +6,5 @@ ExPy/Web/bin/
 *.js
 *.map
 ExPy/Web/node_modules/
+.vscode/.ropeproject/config.py
+.vscode/.ropeproject/objectdb
