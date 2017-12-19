@@ -2,12 +2,6 @@
 
 import random
 
-DIFFICULTIES = {
-    1: 10,
-    2: 100,
-    3: 1000
-}
-
 def ex32():
     """Prompt the user to guess a number
     If they guess right, then congratulate them
@@ -18,9 +12,8 @@ def ex32():
     play = True
     while play:
         difficulty = int(input('Pick a difficulty level (1, 2, or 3): '))
-        assert difficulty in DIFFICULTIES
-        difficulty_max = DIFFICULTIES[difficulty]
-        number_to_guess = random.randint(1, difficulty_max)
+        assert difficulty in (1, 2, 3)
+        number_to_guess = random.randint(1, 10 ** difficulty)
         previous_guesses = set()
         guesses = 0
         guess = None
