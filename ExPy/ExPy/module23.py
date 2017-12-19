@@ -57,6 +57,7 @@ def ex23():
         answers = question['answers']
         if answer in answers:
             if isinstance(answers[answer], int):
+                # reached a follow-up question; set as the next question to ask
                 question = QUESTIONS[answers[answer]]
             else:
                 # reached a diagnosis; print and exit
