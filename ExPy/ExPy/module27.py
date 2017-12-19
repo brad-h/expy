@@ -2,6 +2,8 @@
 
 import os
 import re
+import rx
+import tkcomponents
 
 def exists(value):
     """ True and None if the value is (str) and not ''
@@ -68,12 +70,32 @@ def validator(dictionary):
     return callback
 
 NAME_VALIDATOR = sequence(exists, min_length(2))
+EMPLOYEE_ID_VALIDATOR = pattern(r'^[a-zA-Z]{2}-[0-9]{4}$')
 VALIDATOR = validator({
     'first name': NAME_VALIDATOR,
     'last name': NAME_VALIDATOR,
     'ZIP code': numeric,
-    'ID': pattern(r'^\a{2}-\d{4}')
+    'ID': EMPLOYEE_ID_VALIDATOR
 })
+
+def validate_input(first_name, last_name, zip_code, employee_id):
+    """first_name - (str)
+    last_name - (str)
+    zip_code - (str)
+    employee_id - (str)
+    Return a pair (bool, None|str)
+    None if True
+    str error message if False
+    """
+    data = {
+        'first name': first_name,
+        'last name': last_name,
+        'ZIP code': zip_code,
+        'ID': employee_id
+    }
+
+    okay, results = VALIDATOR(data)
+    return 'There were no errors found.' if okay else results
 
 def ex27():
     """Prompt for first and last name, ZIP code and Employee ID
@@ -84,18 +106,49 @@ def ex27():
     zip_code = input('Enter the ZIP code: ')
     employee_id = input('Enter an employee ID: ')
 
-    data = {
-        'first name': first_name,
-        'last name': last_name,
-        'ZIP code': zip_code,
-        'ID': employee_id
-    }
+    output = validate_input(first_name, last_name, zip_code, employee_id)
+    print(output)
 
-    okay, results = VALIDATOR(data)
-    if okay:
-        print('There were no errors found.')
-    else:
-        print(results)
+def _display_result(field, result):
+    """Accept a field name and a validation result pair
+    Display an error if it exists
+    """
+    okay, error = result
+    return '' if okay else error(field)
+
+def _validated_input(root, label, row, vldtr):
+    """Create a Validated Input component
+    root - a Tk root
+    label - a str to be used as the input label
+    row - the row in the window
+    vldtr - the validator to use for the input
+    Return a stream of input values
+    """
+    #pylint: disable=E1101
+    label = rx.Observable.just(label)
+    values = tkcomponents.input_stream(root, label, row)
+    results = rx.Observable.combine_latest(label, values.map(vldtr), _display_result)
+    tkcomponents.output_label(root, results, row + 1, fg='red')
+    return values
+
+def ex27gui():
+    """GUI version of ex 27"""
+    #pylint: disable=E1101
+    root = tkcomponents.create('Validating Inputs')
+
+    first_names = _validated_input(root, 'First Name', 0, NAME_VALIDATOR)
+    last_names = _validated_input(root, 'Last Name', 2, NAME_VALIDATOR)
+    zip_codes = _validated_input(root, 'ZIP code', 4, numeric)
+    employee_ids = _validated_input(root, 'Employee ID', 6, EMPLOYEE_ID_VALIDATOR)
+
+    validation_results = rx.Observable.combine_latest(first_names,
+                                                      last_names,
+                                                      zip_codes,
+                                                      employee_ids,
+                                                      validate_input)
+    tkcomponents.output_label(root, validation_results, 8)
+
+    root.mainloop()
 
 if __name__ == '__main__':
-    ex27()
+    ex27gui()
