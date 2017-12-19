@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Multiplication Table</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.4.0/Rx.js"></script>
+    <style>
+    /* https://css-tricks.com/simple-css-row-column-highlighting/ */
+    table {
+    overflow: hidden;
+    }
+    
+    tr:hover {
+    background-color: #ffa;
+    }
+    
+    td, th {
+    position: relative;
+    }
+    td:hover::after,
+    th:hover::after {
+    content: "";
+    position: absolute;
+    background-color: #ffa;
+    left: 0;
+    top: -5000px;
+    height: 10000px;
+    width: 100%;
+    z-index: -1;
+    }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <label for="base" id="base.label">Base Number</label>
+        <input type="number" id="base" />
+        <br />
+        <span id="out"></span>
+    </div>
+    <script>
+        (function () {
+            var base = document.getElementById('base');
+            var out = document.getElementById('out');
+            
+            function buildMultiplicationTable(n) {
+                n = parseInt(n.srcElement.value);
+                if (isNaN(n)) {
+                    return '';
+                }
+                var table = ['<table><colgroup>'];
+                for (var i = 0; i <= n; i++) {
+                    table.push('<th>' + i + '</th>');
+                }
+                table.push('</tr>')
+                for(var i = 0; i <= n; i++) {
+                    table.push('<tr><td><b>' + i + '</b></td>');
+                    for(var j = 0; j <= n; j++) {
+                        table.push('<td>' + (i * j) + '</td>');
+                    }
+                    table.push('</tr>')
+                }
+                return table.join('');
+            }
+            var base$ = Rx.Observable.fromEvent(base, 'change').map(buildMultiplicationTable);
+            base$.subscribe(function (x) { out.innerHTML = x; });
+        })();
+    </script>
+</body>
+</html>
