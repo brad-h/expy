@@ -13,7 +13,7 @@ def ex16():
             break
         except ValueError:
             print('Enter a valid age')
-    
+
     if age < 16:
         print('You are not old enough to legally drive')
     else:
