@@ -1,7 +1,7 @@
 """ Anagram Checker """
 
 def is_anagram(first, second):
-    """ Checks to see if both input strings are anagrams of each eother
+    """ Checks to see if both input strings are anagrams of eachother
     first - (str) first string
     second - (str) second string
     Returns (bool) - True if x is an anagram of y, otherwise False
