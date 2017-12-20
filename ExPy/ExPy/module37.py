@@ -35,13 +35,14 @@ def ex37():
     print('Your password is')
     # going to do the bare minimum length, because why shouldn't all of this be terrible
     real_minimum_length = max((min_length, special_count + number_count))
-    specials = [SPECIALS[random.randrange(0, len(SPECIALS))] for _ in range(special_count)]
-    numbers = [DIGITS[random.randrange(0, len(DIGITS))] for _ in range(number_count)]
-    remainder = real_minimum_length - (special_count + number_count)
-    alpha = [ALPHA[random.randrange(0, len(ALPHA))] for _ in range(remainder)]
-    alpha = [LEET[x] if x.lower() in LEET and random.random() < .5 else x for x in list(alpha)]
-    password_chars = specials + numbers + alpha
-    print(_knuth_shuffle(password_chars))
+    for _ in range(3): # 3 options
+        specials = [SPECIALS[random.randrange(0, len(SPECIALS))] for _ in range(special_count)]
+        numbers = [DIGITS[random.randrange(0, len(DIGITS))] for _ in range(number_count)]
+        remainder = real_minimum_length - (special_count + number_count)
+        alpha = [ALPHA[random.randrange(0, len(ALPHA))] for _ in range(remainder)]
+        alpha = [LEET[x.lower()] if x.lower() in LEET and random.random() < .5 else x for x in list(alpha)]
+        password_chars = specials + numbers + alpha
+        print(_knuth_shuffle(password_chars))
 
 
 if __name__ == '__main__':
