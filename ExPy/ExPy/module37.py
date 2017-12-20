@@ -45,6 +45,5 @@ def ex37():
         password_chars = specials + numbers + alpha
         print(_knuth_shuffle(password_chars))
 
-
 if __name__ == '__main__':
     ex37()
