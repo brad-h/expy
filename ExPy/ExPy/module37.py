@@ -40,7 +40,8 @@ def ex37():
         numbers = [DIGITS[random.randrange(0, len(DIGITS))] for _ in range(number_count)]
         remainder = real_minimum_length - (special_count + number_count)
         alpha = [ALPHA[random.randrange(0, len(ALPHA))] for _ in range(remainder)]
-        alpha = [LEET[x.lower()] if x.lower() in LEET and random.random() < .5 else x for x in list(alpha)]
+        alpha = [LEET[x.lower()] if x.lower() in LEET and random.random() < .5 else x
+                 for x in list(alpha)]
         password_chars = specials + numbers + alpha
         print(_knuth_shuffle(password_chars))
 
