@@ -44,9 +44,7 @@ def standard_deviation(numbers):
     if not numbers:
         return None
     average = mean(numbers)
-    squared_values = []
-    for i in range(len(numbers)): #pylint: disable=C0200
-        squared_values[i] = (numbers[i] - average) ** 2
+    squared_values = [(n - average) ** 2 for n in numbers]
     return sqrt(mean(squared_values))
 
 def ex36():
@@ -67,7 +65,7 @@ def ex36():
     print('The average is {}.'.format(mean(numbers)))
     print('The minimum is {}'.format(minimum(numbers)))
     print('The maximium is {}.'.format(maximum(numbers)))
-    print('The standard deviation is 400.25'.format(numbers))
+    print('The standard deviation is {}'.format(standard_deviation(numbers)))
 
 if __name__ == '__main__':
     ex36()
