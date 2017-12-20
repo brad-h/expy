@@ -9,7 +9,7 @@ DISPLAY_COLUMNS = 'Name,Position,Separation Date'.split(',')
 def ex39():
     """Read the data set, sort and display it"""
     records = []
-    with open('module39.csv') as filehandle:
+    with open('employee_data_set.csv') as filehandle:
         reader = csv.DictReader(filehandle)
         for row in reader:
             records.append(row)
