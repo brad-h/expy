@@ -13,8 +13,7 @@ def ex38():
     user_input = input('Enter a list of numbers, seperated by spaces: ')
     numbers = [int(x) for x in user_input.split(' ')]
     evens = filter_even_numbers(numbers)
-    print('The even numbers are {}.'.format(' '.join(map(str, evens))))
-    
+    print('The even numbers are {}.'.format(' '.join(map(str, evens))))    
 
 if __name__ == '__main__':
     ex38()
