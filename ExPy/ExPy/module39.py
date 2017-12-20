@@ -4,6 +4,7 @@ import csv
 from prettyprinttable import pretty_print_table
 
 ORDER = dict(zip('LPS', 'Last Name,Position,Separation Date'.split(',')))
+DISPLAY_COLUMNS = 'Name,Position,Separation Date'.split(',')
 
 def ex39():
     """Read the data set, sort and display it"""
@@ -20,7 +21,9 @@ def ex39():
             break
         print('Select a valid option')
     records.sort(key=lambda x: x[order])
-    print(pretty_print_table(records, records[0].keys()))
+    for record in records:
+        record['Name'] = record['First Name'] + ' ' + record['Last Name']
+    print(pretty_print_table(records, DISPLAY_COLUMNS))
 
 
 if __name__ == '__main__':
