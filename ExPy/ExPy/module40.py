@@ -2,7 +2,7 @@
 
 from datetime import datetime
 import csv
-from prettyprinttable import pretty_print_table
+from pretty import pretty_print_table
 
 
 def _iso_8601(yyyy_mm_dd):

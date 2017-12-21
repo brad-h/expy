@@ -1,7 +1,7 @@
 """Sorting Records"""
 
 import csv
-from prettyprinttable import pretty_print_table
+from pretty import pretty_print_table
 
 ORDER = dict(zip('LPS', 'Last Name,Position,Separation Date'.split(',')))
 DISPLAY_COLUMNS = 'Name,Position,Separation Date'.split(',')

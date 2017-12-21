@@ -2,7 +2,7 @@
 
 import os
 
-def pretty_print_table(records, columns):
+def pretty_print_table(records, columns, row_sep=' | ', header_sep='-|-'):
     """Given an iterable of dicts with key and value both of type str
     And an iterable of strings that are keys in those dict
     Return a Pretty-print table as str
@@ -19,12 +19,12 @@ def pretty_print_table(records, columns):
         header.append(column.ljust(maximum))
         seperator.append('-' * maximum)
 
-    rows = [' | '.join(header), '-|-'.join(seperator)]
+    rows = [row_sep.join(header), header_sep.join(seperator)]
 
     for record in records:
         row = []
         for column in columns:
             field = record[column] if column in record and record[column] is not None else ''
             row.append(field.ljust(column_max[column]))
-        rows.append(' | '.join(row))
+        rows.append(row_sep.join(row))
     return os.linesep.join(rows)
