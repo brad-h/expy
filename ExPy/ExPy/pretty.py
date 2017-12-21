@@ -1,5 +1,6 @@
 """Tabular helper functions"""
 
+import decimal
 import os
 
 def pretty_print_table(records, columns, row_sep=' | ', header_sep='-|-'):
@@ -28,3 +29,21 @@ def pretty_print_table(records, columns, row_sep=' | ', header_sep='-|-'):
             row.append(field.ljust(column_max[column]))
         rows.append(row_sep.join(row))
     return os.linesep.join(rows)
+
+def money(dec):
+    """Given a decimal number
+    Return a string formatted in USD with commas
+    """
+    # Because you really ought to be using decimal floats for money
+    assert isinstance(dec, decimal.Decimal)
+    dec_str = str(round(dec, 2))
+    dollars, cents = dec_str.split('.')
+    # reverse dollars and start peeling off groups of three numbers
+    dollars = dollars[::-1]
+    dollar_parts = []
+    while len(dollars) > 3:
+        dollar_parts.append(dollars[:3][::-1])
+        dollars = dollars[3:]
+    dollar_parts.append(dollars[::-1])
+    dollar_parts.reverse()
+    return '${}.{}'.format(','.join(dollar_parts), cents)
