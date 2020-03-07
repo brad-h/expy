@@ -1,0 +1,12 @@
+<!doctype html>
+<title>Module 49</title>
+<body>
+    <form method="GET" action="/">
+        <label for="q">Search: </label>
+        <input id="q" name="q" type="text" required value="{{q or ''}}"/>
+        <input type="submit"/>
+    </form>
+    {% for link in links %}
+        <img src="{{link}}"></img>
+    {% endfor %}
+</body>
